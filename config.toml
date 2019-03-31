@@ -1,6 +1,6 @@
 baseurl = "https://breastcancer.netlify.com/"
 languageCode = "en-us"
-title = "A Hugo website"
+title = "Breast Cancer Risk Factors"
 theme = "hugo-lithium"
 googleAnalytics = ""
 disqusShortname = ""
