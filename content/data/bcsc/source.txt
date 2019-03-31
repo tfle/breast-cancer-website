@@ -1,0 +1,6 @@
+Data:
+http://www.bcsc-research.org/data/rf
+http://www.bcsc-research.org/download_file/32/272
+
+R Analysis:
+http://www2.stat.duke.edu/~mc301/ARTSCI101_Su16/post/r/bc_risk_factors.html
