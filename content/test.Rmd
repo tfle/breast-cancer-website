@@ -16,15 +16,16 @@ suppressWarnings(library(ggplot2))
 
 ```{r setup}
 library(ggplot2)
+library(vcd)
 
-bcsc <- read.csv("data/bcsc/BCSC_risk_factors_summarized.csv")
+bcsc <- read.csv("Data/bcsc/BCSC_risk_factors_summarized.csv")
 
-bcsc2 <- read.delim("data/bcsc/risk.txt", header = FALSE, sep = "")
+bcsc2 <- read.delim("Data/bcsc/risk.txt", header = FALSE, sep = "")
 names(bcsc2) <- c("menopaus", "agegrp", "density", "race", "hispanic", "bmi", "agefirst", "nrelbc", "brstproc", "lastmamm", "surgmeno", "hrt", "invasive", "cancer", "training", "count")
 
-datahub <- read.csv("data/datahub/breast-cancer_csv.csv")
+datahub <- read.csv("Data/datahub/breast-cancer_csv.csv")
 
-kaggle <- read.csv("data/kaggle/breastCancer.csv")
+kaggle <- read.csv("Data/kaggle/breastCancer.csv")
 
 ```
 
@@ -109,6 +110,30 @@ hrt.incidence + geom_bar() + labs(title = "Barplot of the Effect of Hormone Ther
 
 The above plot shows the number of women with breast cancer who are receiving (or not receiving) hormone therapy for their menopausal symptoms. Unknown represents women who are either not menopausal or whose status we do not have.
 
+# BMI vs Incidence
+## BCSC Risk Estimation Dataset
+```{r}
+bmi.incidence <- ggplot(subset(bcsc2, cancer == "1"), aes(x = factor(bmi, labels = c("10-24.99", "25-29.99", "30-34.99", "35 or more", "Unknown"))))
+bmi.incidence + geom_bar() + labs(title = "Barplot of the Effect of BMI on Incidence", x = "BMI", y = "Frequency")
+```
+```{r}
+bmi.incidence <- ggplot(subset(bcsc2, cancer == "1" & bmi <= 4), aes(x = factor(bmi, labels = c("10-24.99", "25-29.99", "30-34.99", "35 or more"))))
+bmi.incidence + geom_bar() + labs(title = "Barplot of the Effect of BMI on Incidence (Unknowns Removed)", x = "BMI", y = "Frequency")
+```
+```{r mosaic}
+bcsc2 <- subset(bcsc2, bmi <=4)
+cancer <- factor(bcsc2$cancer, labels = c("No", "Yes"))
+bmi <- factor(bcsc2$bmi, labels = c("10-24.99", "25-29.99", "30-34.99", "35+"))
+cancer.bmi <- table(cancer, bmi, dnn = list("Diagnosis of breast cancer", "BMI"))
+mosaic(cancer.bmi, shade = TRUE, legend = TRUE)
+```
+
+# Number of first degree relatives vs Incidence
+## BCSC Risk Estimation Dataset
+```{r}
+nrelbc.incidence <- ggplot(subset(bcsc2, cancer == "1" & nrelbc <= 2), aes(x = factor(bmi, labels = c("0", "1", "2", "2 or more"))))
+nrelbc.incidence + geom_bar() + labs(title = "Barplot of the Effect of Number of First Degree Relatives on Incidence (Unknowns Removed)", x = "Number of first degree relatives", y = "Frequency of Positive Diagnoses")
+```
 <!-- 
 
 Matjaz Zwitter & Milan Soklic (physicians) Institute of Oncology University Medical Center Ljubljana, Yugoslavia -- Donors: Ming Tan and Jeff Schlimmer -- Date: 11 July 1988. 
