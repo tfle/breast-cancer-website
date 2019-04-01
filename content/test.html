@@ -13,15 +13,16 @@ output:
 
 
 <pre class="r"><code>library(ggplot2)
+library(vcd)</code></pre>
+<pre><code>## Loading required package: grid</code></pre>
+<pre class="r"><code>bcsc &lt;- read.csv(&quot;Data/bcsc/BCSC_risk_factors_summarized.csv&quot;)
 
-bcsc &lt;- read.csv(&quot;data/bcsc/BCSC_risk_factors_summarized.csv&quot;)
-
-bcsc2 &lt;- read.delim(&quot;data/bcsc/risk.txt&quot;, header = FALSE, sep = &quot;&quot;)
+bcsc2 &lt;- read.delim(&quot;Data/bcsc/risk.txt&quot;, header = FALSE, sep = &quot;&quot;)
 names(bcsc2) &lt;- c(&quot;menopaus&quot;, &quot;agegrp&quot;, &quot;density&quot;, &quot;race&quot;, &quot;hispanic&quot;, &quot;bmi&quot;, &quot;agefirst&quot;, &quot;nrelbc&quot;, &quot;brstproc&quot;, &quot;lastmamm&quot;, &quot;surgmeno&quot;, &quot;hrt&quot;, &quot;invasive&quot;, &quot;cancer&quot;, &quot;training&quot;, &quot;count&quot;)
 
-datahub &lt;- read.csv(&quot;data/datahub/breast-cancer_csv.csv&quot;)
+datahub &lt;- read.csv(&quot;Data/datahub/breast-cancer_csv.csv&quot;)
 
-kaggle &lt;- read.csv(&quot;data/kaggle/breastCancer.csv&quot;)</code></pre>
+kaggle &lt;- read.csv(&quot;Data/kaggle/breastCancer.csv&quot;)</code></pre>
 <div id="age-vs-incidence" class="section level1">
 <h1>Age vs Incidence</h1>
 <div id="bcsc-risk-estimation-dataset" class="section level2">
@@ -101,7 +102,33 @@ menopause.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of M
 hrt.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of Hormone Therapy on Incidence&quot;, y = &quot;Frequency&quot;) + theme(axis.title.x = element_blank())</code></pre>
 <p><img src="/test_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>The above plot shows the number of women with breast cancer who are receiving (or not receiving) hormone therapy for their menopausal symptoms. Unknown represents women who are either not menopausal or whose status we do not have.</p>
-<!-- 
+</div>
+</div>
+<div id="bmi-vs-incidence" class="section level1">
+<h1>BMI vs Incidence</h1>
+<div id="bcsc-risk-estimation-dataset-4" class="section level2">
+<h2>BCSC Risk Estimation Dataset</h2>
+<pre class="r"><code>bmi.incidence &lt;- ggplot(subset(bcsc2, cancer == &quot;1&quot;), aes(x = factor(bmi, labels = c(&quot;10-24.99&quot;, &quot;25-29.99&quot;, &quot;30-34.99&quot;, &quot;35 or more&quot;, &quot;Unknown&quot;))))
+bmi.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of BMI on Incidence&quot;, x = &quot;BMI&quot;, y = &quot;Frequency&quot;)</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>bmi.incidence &lt;- ggplot(subset(bcsc2, cancer == &quot;1&quot; &amp; bmi &lt;= 4), aes(x = factor(bmi, labels = c(&quot;10-24.99&quot;, &quot;25-29.99&quot;, &quot;30-34.99&quot;, &quot;35 or more&quot;))))
+bmi.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of BMI on Incidence (Unknowns Removed)&quot;, x = &quot;BMI&quot;, y = &quot;Frequency&quot;)</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code>bcsc2 &lt;- subset(bcsc2, bmi &lt;=4)
+cancer &lt;- factor(bcsc2$cancer, labels = c(&quot;No&quot;, &quot;Yes&quot;))
+bmi &lt;- factor(bcsc2$bmi, labels = c(&quot;10-24.99&quot;, &quot;25-29.99&quot;, &quot;30-34.99&quot;, &quot;35+&quot;))
+cancer.bmi &lt;- table(cancer, bmi, dnn = list(&quot;Diagnosis of breast cancer&quot;, &quot;BMI&quot;))
+mosaic(cancer.bmi, shade = TRUE, legend = TRUE)</code></pre>
+<p><img src="/test_files/figure-html/mosaic-1.png" width="672" /></p>
+</div>
+</div>
+<div id="number-of-first-degree-relatives-vs-incidence" class="section level1">
+<h1>Number of first degree relatives vs Incidence</h1>
+<div id="bcsc-risk-estimation-dataset-5" class="section level2">
+<h2>BCSC Risk Estimation Dataset</h2>
+<pre class="r"><code>nrelbc.incidence &lt;- ggplot(subset(bcsc2, cancer == &quot;1&quot; &amp; nrelbc &lt;= 2), aes(x = factor(bmi, labels = c(&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;2 or more&quot;))))
+nrelbc.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of Number of First Degree Relatives on Incidence (Unknowns Removed)&quot;, x = &quot;Number of first degree relatives&quot;, y = &quot;Frequency of Positive Diagnoses&quot;)</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-12-1.png" width="672" /> <!-- 
 
 Matjaz Zwitter & Milan Soklic (physicians) Institute of Oncology University Medical Center Ljubljana, Yugoslavia -- Donors: Ming Tan and Jeff Schlimmer -- Date: 11 July 1988. 
 
@@ -111,6 +138,6 @@ Matjaz Zwitter & Milan Soklic (physicians) Institute of Oncology University Medi
 
 
 
--->
+--></p>
 </div>
 </div>
