@@ -15,6 +15,12 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 [[menu.main]]
     name = "Test"
     url = "/test/"
+[[menu.main]]
+    name = "Race"
+    url = "/race/" 
+[[menu.main]]
+    name = "Age"
+    url = "/age/"
 
 [params]
     description = "Multimedia research project for AMED3002: Interrogating Biomedical and Health Data"
