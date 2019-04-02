@@ -36,6 +36,7 @@ age.incidence <- ggplot(subset(bcsc2, cancer == "1"), aes(x = factor(agegrp, lab
 age.incidence + geom_bar() + labs(title = "Barplot of the Effect of Age on Incidence", x = "Age", y = "Frequency")
 ```
 
+
 The above barplot shows the distribution of age for the women who were diagnosed with breast cancer within 1 year of the beginning of the study. Women had no previous diagnosis of breast cancer before the study.
 
 Documentation for this dataset: <http://www.bcsc-research.org/data/rfdataset/dataset>
@@ -46,6 +47,11 @@ Paper: <https://academic.oup.com/jnci/article/98/17/1204/2521747>
 ```{r}
 age.incidence <- ggplot(datahub, aes(x = factor(age)))
 age.incidence + geom_bar() + labs(title = "Barplot of the Effect of Age on Incidence", x = "Age", y = "Frequency")
+
+# Two-way ANOVA with interaction effect
+# These two calls are equivalent
+res.aov3 <- aov(agegrp ~ cancer, data = bcsc2)
+summary(res.aov3)
 ```
 
 This dataset looks at a number of variables for women who have been diagnosed with breast cancer. The above barplot is simply a frequency of the age groups provided.
@@ -64,7 +70,7 @@ I assume the recurrence-events variable means that these women have had a prior 
 # Race vs Incidence
 ## BCSC Risk Estimation Dataset
 ```{r}
-race.incidence <- ggplot(subset(bcsc2, cancer == "1"), aes(x = factor(race, labels = c("White", "Asian/Pacific Islander", "Black", "Native American", "Other/Mixed", "Unknown"))))
+race.incidence <- ggplot(subset(bcsc2, cancer == "1" & race <= 5), aes(x = factor(race, labels = c("White", "Asian/Pacific Islander", "Black", "Native American", "Other/Mixed"))))
 race.incidence + geom_bar() + labs(title = "Barplot of the Effect of Race on Incidence", x = "Race / Ethnicity", y = "Frequency")
 ```
 
@@ -78,7 +84,7 @@ summary(x)
 And the number of people who were diagnosed with breast cancer after 1 year (as visualised in the previous barplot):
 
 ```{r}
-x = factor(subset(bcsc2, cancer == "1")$race, labels = c("White", "Asian/Pacific Islander", "Black", "Native American", "Other/Mixed", "Unknown"))
+x = factor(subset(bcsc2, cancer == "1" & race <= 5)$race, labels = c("White", "Asian/Pacific Islander", "Black", "Native American", "Other/Mixed"))
 summary(x)
 ```
 
@@ -87,7 +93,7 @@ At a glance, white women were more likely to be diagnosed with breast  cancer (~
 # Menopause vs Incidence
 ## BCSC Risk Estimation Dataset
 ```{r}
-menopause.incidence <- ggplot(subset(bcsc2, cancer == "1"), aes(x = factor(menopaus, labels = c("Premenopausal", "Postmenopausual or Age >= 55", "Unknown"))))
+menopause.incidence <- ggplot(subset(bcsc2, cancer == "1" & menopaus <= 2), aes(x = factor(menopaus, labels = c("Premenopausal", "Postmenopausual or Age >= 55"))))
 menopause.incidence + geom_bar() + labs(title = "Barplot of the Effect of Menopause on Incidence", y = "Frequency") + theme(axis.title.x = element_blank())
 ```
 
@@ -104,7 +110,7 @@ Menopause status of those with breast cancer. Assuming ge40 is greater than 40 y
 # Hormone Therapy vs Incidence
 ## BCSC Risk Estimation Dataset
 ```{r}
-hrt.incidence <- ggplot(subset(bcsc2, cancer == "1"), aes(x = factor(hrt, labels = c("No Hormone Therapy", "Hormone Therapy", "Unknown"))))
+hrt.incidence <- ggplot(subset(bcsc2, cancer == "1" & hrt <= 1), aes(x = factor(hrt, labels = c("No Hormone Therapy", "Hormone Therapy"))))
 hrt.incidence + geom_bar() + labs(title = "Barplot of the Effect of Hormone Therapy on Incidence", y = "Frequency") + theme(axis.title.x = element_blank())
 ```
 
@@ -113,7 +119,7 @@ The above plot shows the number of women with breast cancer who are receiving (o
 # BMI vs Incidence
 ## BCSC Risk Estimation Dataset
 ```{r}
-bmi.incidence <- ggplot(subset(bcsc2, cancer == "1"), aes(x = factor(bmi, labels = c("10-24.99", "25-29.99", "30-34.99", "35 or more", "Unknown"))))
+bmi.incidence <- ggplot(subset(bcsc2, cancer == "1" & bmi <= 4), aes(x = factor(bmi, labels = c("10-24.99", "25-29.99", "30-34.99", "35 or more"))))
 bmi.incidence + geom_bar() + labs(title = "Barplot of the Effect of BMI on Incidence", x = "BMI", y = "Frequency")
 ```
 ```{r}
