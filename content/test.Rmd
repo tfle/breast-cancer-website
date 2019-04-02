@@ -65,7 +65,7 @@ I assume the recurrence-events variable means that these women have had a prior 
 ## BCSC Risk Estimation Dataset
 ```{r}
 race.incidence <- ggplot(subset(bcsc2, cancer == "1" & race <= 5), aes(x = factor(race, labels = c("White", "Asian/Pacific Islander", "Black", "Native American", "Other/Mixed"))))
-race.incidence + geom_bar() + labs(title = "Barplot of the Effect of Race on Incidence", x = "Race / Ethnicity", y = "Frequency")
+race.incidence + geom_bar() + labs(title = "Effect of Race on the Incidence of Breast Cancer", x = "Race / Ethnicity", y = "Frequency")
 ```
 
 This shows the number of people in each ethnicity who were diagnosed with breast cancer within 1 year. Not sure how to get the relative proportions. TBD. For comparison, this is the total number of people in the study:
@@ -88,7 +88,7 @@ At a glance, white women were more likely to be diagnosed with breast  cancer (~
 ## BCSC Risk Estimation Dataset
 ```{r}
 menopause.incidence <- ggplot(subset(bcsc2, cancer == "1" & menopaus <= 2), aes(x = factor(menopaus, labels = c("Premenopausal", "Postmenopausual or Age >= 55"))))
-menopause.incidence + geom_bar() + labs(title = "Barplot of the Effect of Menopause on Incidence", y = "Frequency") + theme(axis.title.x = element_blank())
+menopause.incidence + geom_bar() + labs(title = "Effect of Menopause on the Incidence of Breast Cancer", y = "Frequency") + theme(axis.title.x = element_blank())
 ```
 
 The above barplot shows the number of women who were diagnosed with breast cancer within 1 year and whether they were premenopausal or postmenopausal (or older than 55).
