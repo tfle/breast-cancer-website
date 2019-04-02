@@ -1,20 +1,14 @@
 ---
 title: "AMED3002 Research Project"
 subtitle: "Graphs for Analysis v1.0"
-output: 
-  html_document:
-    toc: true
-    toc_float: true
-    #code_folding: hide
-    number_sections: true
-    #theme: cerulean
+output: html_document
 ---
 
 ```{r suppressWarnings, include=FALSE}
 suppressWarnings(library(ggplot2))
 ```
 
-```{r setup}
+```{r setup, echo=FALSE}
 library(ggplot2)
 library(vcd)
 

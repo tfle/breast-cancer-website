@@ -1,28 +1,12 @@
 ---
 title: "AMED3002 Research Project"
 subtitle: "Graphs for Analysis v1.0"
-output: 
-  html_document:
-    toc: true
-    toc_float: true
-    #code_folding: hide
-    number_sections: true
-    #theme: cerulean
+output: html_document
 ---
 
 
 
-<pre class="r"><code>library(ggplot2)
-library(vcd)</code></pre>
 <pre><code>## Loading required package: grid</code></pre>
-<pre class="r"><code>bcsc &lt;- read.csv(&quot;Data/bcsc/BCSC_risk_factors_summarized.csv&quot;)
-
-bcsc2 &lt;- read.delim(&quot;Data/bcsc/risk.txt&quot;, header = FALSE, sep = &quot;&quot;)
-names(bcsc2) &lt;- c(&quot;menopaus&quot;, &quot;agegrp&quot;, &quot;density&quot;, &quot;race&quot;, &quot;hispanic&quot;, &quot;bmi&quot;, &quot;agefirst&quot;, &quot;nrelbc&quot;, &quot;brstproc&quot;, &quot;lastmamm&quot;, &quot;surgmeno&quot;, &quot;hrt&quot;, &quot;invasive&quot;, &quot;cancer&quot;, &quot;training&quot;, &quot;count&quot;)
-
-datahub &lt;- read.csv(&quot;Data/datahub/breast-cancer_csv.csv&quot;)
-
-kaggle &lt;- read.csv(&quot;Data/kaggle/breastCancer.csv&quot;)</code></pre>
 <div id="age-vs-incidence" class="section level1">
 <h1>Age vs Incidence</h1>
 <div id="bcsc-risk-estimation-dataset" class="section level2">
