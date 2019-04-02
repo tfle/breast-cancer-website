@@ -1,0 +1,147 @@
+---
+title: "AMED3002 Research Project"
+subtitle: "Graphs for Analysis v1.0"
+output: html_document
+---
+
+```{r suppressWarnings, include=FALSE}
+suppressWarnings(library(ggplot2))
+```
+
+```{r setup, echo=FALSE}
+library(ggplot2)
+library(vcd)
+
+bcsc <- read.csv("Data/bcsc/BCSC_risk_factors_summarized.csv")
+
+bcsc2 <- read.delim("Data/bcsc/risk.txt", header = FALSE, sep = "")
+names(bcsc2) <- c("menopaus", "agegrp", "density", "race", "hispanic", "bmi", "agefirst", "nrelbc", "brstproc", "lastmamm", "surgmeno", "hrt", "invasive", "cancer", "training", "count")
+
+datahub <- read.csv("Data/datahub/breast-cancer_csv.csv")
+
+kaggle <- read.csv("Data/kaggle/breastCancer.csv")
+
+```
+
+# Age vs Incidence
+## BCSC Risk Estimation Dataset
+```{r}
+age.incidence <- ggplot(subset(bcsc2, cancer == "1"), aes(x = factor(agegrp, labels = c("35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84"))))
+age.incidence + geom_bar() + labs(title = "Barplot of the Effect of Age on Incidence", x = "Age", y = "Frequency")
+```
+
+
+The above barplot shows the distribution of age for the women who were diagnosed with breast cancer within 1 year of the beginning of the study. Women had no previous diagnosis of breast cancer before the study.
+
+Documentation for this dataset: <http://www.bcsc-research.org/data/rfdataset/dataset>
+
+Paper: <https://academic.oup.com/jnci/article/98/17/1204/2521747>
+
+## Datahub Dataset
+```{r}
+age.incidence <- ggplot(datahub, aes(x = factor(age)))
+age.incidence + geom_bar() + labs(title = "Barplot of the Effect of Age on Incidence", x = "Age", y = "Frequency")
+
+# Two-way ANOVA with interaction effect
+# These two calls are equivalent
+res.aov3 <- aov(agegrp ~ cancer, data = bcsc2)
+summary(res.aov3)
+```
+
+This dataset looks at a number of variables for women who have been diagnosed with breast cancer. The above barplot is simply a frequency of the age groups provided.
+
+"Documentation" for this dataset: <https://datahub.io/machine-learning/breast-cancer>
+
+# Age vs Recurrence
+## Datahub Dataset
+```{r}
+age.recurrence <- ggplot(datahub, aes(x = factor(age)))
+age.recurrence + geom_bar(aes(fill = Class)) + labs(title = "Double Barplot of the Effect of Age on Recurrence", x = "Age", y = "Frequency")
+```
+
+I assume the recurrence-events variable means that these women have had a prior diagnosis of breast cancer and after a period of remission, the cancer has returned. Similarly, I assume the no-recurrence-events variable means that these women have been diagnosed with breast cancer for the first time. I'm guessing a bit here due to the lack of documentation.
+
+# Race vs Incidence
+## BCSC Risk Estimation Dataset
+```{r}
+race.incidence <- ggplot(subset(bcsc2, cancer == "1" & race <= 5), aes(x = factor(race, labels = c("White", "Asian/Pacific Islander", "Black", "Native American", "Other/Mixed"))))
+race.incidence + geom_bar() + labs(title = "Barplot of the Effect of Race on Incidence", x = "Race / Ethnicity", y = "Frequency")
+```
+
+This shows the number of people in each ethnicity who were diagnosed with breast cancer within 1 year. Not sure how to get the relative proportions. TBD. For comparison, this is the total number of people in the study:
+
+```{r}
+x = factor(bcsc2$race, labels = c("White", "Asian/Pacific Islander", "Black", "Native American", "Other/Mixed", "Unknown"))
+summary(x)
+```
+
+And the number of people who were diagnosed with breast cancer after 1 year (as visualised in the previous barplot):
+
+```{r}
+x = factor(subset(bcsc2, cancer == "1" & race <= 5)$race, labels = c("White", "Asian/Pacific Islander", "Black", "Native American", "Other/Mixed"))
+summary(x)
+```
+
+At a glance, white women were more likely to be diagnosed with breast  cancer (~3.36%).
+
+# Menopause vs Incidence
+## BCSC Risk Estimation Dataset
+```{r}
+menopause.incidence <- ggplot(subset(bcsc2, cancer == "1" & menopaus <= 2), aes(x = factor(menopaus, labels = c("Premenopausal", "Postmenopausual or Age >= 55"))))
+menopause.incidence + geom_bar() + labs(title = "Barplot of the Effect of Menopause on Incidence", y = "Frequency") + theme(axis.title.x = element_blank())
+```
+
+The above barplot shows the number of women who were diagnosed with breast cancer within 1 year and whether they were premenopausal or postmenopausal (or older than 55).
+
+## Datahub Dataset
+```{r}
+menopause.incidence <- ggplot(datahub, aes(x = factor(menopause)))
+menopause.incidence + geom_bar() + labs(title = "Barplot of the Effect of Menopause on Incidence", x = "Menopause", y = "Frequency")
+```
+
+Menopause status of those with breast cancer. Assuming ge40 is greater than 40 years old, lt40 is less than 40 years old (no documentation on these variables). Don't understand why premenopausal is an entirely separate category. You can be premenopausal and < 40 or > 40. Right?
+
+# Hormone Therapy vs Incidence
+## BCSC Risk Estimation Dataset
+```{r}
+hrt.incidence <- ggplot(subset(bcsc2, cancer == "1" & hrt <= 1), aes(x = factor(hrt, labels = c("No Hormone Therapy", "Hormone Therapy"))))
+hrt.incidence + geom_bar() + labs(title = "Barplot of the Effect of Hormone Therapy on Incidence", y = "Frequency") + theme(axis.title.x = element_blank())
+```
+
+The above plot shows the number of women with breast cancer who are receiving (or not receiving) hormone therapy for their menopausal symptoms. Unknown represents women who are either not menopausal or whose status we do not have.
+
+# BMI vs Incidence
+## BCSC Risk Estimation Dataset
+```{r}
+bmi.incidence <- ggplot(subset(bcsc2, cancer == "1" & bmi <= 4), aes(x = factor(bmi, labels = c("10-24.99", "25-29.99", "30-34.99", "35 or more"))))
+bmi.incidence + geom_bar() + labs(title = "Barplot of the Effect of BMI on Incidence", x = "BMI", y = "Frequency")
+```
+```{r}
+bmi.incidence <- ggplot(subset(bcsc2, cancer == "1" & bmi <= 4), aes(x = factor(bmi, labels = c("10-24.99", "25-29.99", "30-34.99", "35 or more"))))
+bmi.incidence + geom_bar() + labs(title = "Barplot of the Effect of BMI on Incidence (Unknowns Removed)", x = "BMI", y = "Frequency")
+```
+```{r mosaic}
+bcsc2 <- subset(bcsc2, bmi <=4)
+cancer <- factor(bcsc2$cancer, labels = c("No", "Yes"))
+bmi <- factor(bcsc2$bmi, labels = c("10-24.99", "25-29.99", "30-34.99", "35+"))
+cancer.bmi <- table(cancer, bmi, dnn = list("Diagnosis of breast cancer", "BMI"))
+mosaic(cancer.bmi, shade = TRUE, legend = TRUE)
+```
+
+# Number of first degree relatives vs Incidence
+## BCSC Risk Estimation Dataset
+```{r}
+nrelbc.incidence <- ggplot(subset(bcsc2, cancer == "1" & nrelbc <= 2), aes(x = factor(bmi, labels = c("0", "1", "2", "2 or more"))))
+nrelbc.incidence + geom_bar() + labs(title = "Barplot of the Effect of Number of First Degree Relatives on Incidence (Unknowns Removed)", x = "Number of first degree relatives", y = "Frequency of Positive Diagnoses")
+```
+<!-- 
+
+Matjaz Zwitter & Milan Soklic (physicians) Institute of Oncology University Medical Center Ljubljana, Yugoslavia -- Donors: Ming Tan and Jeff Schlimmer -- Date: 11 July 1988. 
+
+
+
+
+
+
+
+-->
