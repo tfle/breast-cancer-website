@@ -6,14 +6,16 @@ output: html_document
 
 
 
+<pre class="r"><code>my_theme &lt;- theme_classic() +
+  theme(plot.background = element_rect(NULL), panel.grid = element_line(NULL))</code></pre>
 <pre><code>## Loading required package: grid</code></pre>
 <div id="age-vs-incidence" class="section level1">
 <h1>Age vs Incidence</h1>
 <div id="bcsc-risk-estimation-dataset" class="section level2">
 <h2>BCSC Risk Estimation Dataset</h2>
 <pre class="r"><code>age.incidence &lt;- ggplot(subset(bcsc2, cancer == &quot;1&quot;), aes(x = factor(agegrp, labels = c(&quot;35-39&quot;, &quot;40-44&quot;, &quot;45-49&quot;, &quot;50-54&quot;, &quot;55-59&quot;, &quot;60-64&quot;, &quot;65-69&quot;, &quot;70-74&quot;, &quot;75-79&quot;, &quot;80-84&quot;))))
-age.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of Age on Incidence&quot;, x = &quot;Age&quot;, y = &quot;Frequency&quot;)</code></pre>
-<p><img src="/test_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+age.incidence + geom_bar(fill = &quot;pink&quot;, colour = &quot;black&quot;) + labs(title = &quot;Barplot of the Effect of Age on Incidence&quot;, x = &quot;Age&quot;, y = &quot;Frequency&quot;) + my_theme</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>The above barplot shows the distribution of age for the women who were diagnosed with breast cancer within 1 year of the beginning of the study. Women had no previous diagnosis of breast cancer before the study.</p>
 <p>Documentation for this dataset: <a href="http://www.bcsc-research.org/data/rfdataset/dataset" class="uri">http://www.bcsc-research.org/data/rfdataset/dataset</a></p>
 <p>Paper: <a href="https://academic.oup.com/jnci/article/98/17/1204/2521747" class="uri">https://academic.oup.com/jnci/article/98/17/1204/2521747</a></p>
@@ -21,8 +23,8 @@ age.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of Age on 
 <div id="datahub-dataset" class="section level2">
 <h2>Datahub Dataset</h2>
 <pre class="r"><code>age.incidence &lt;- ggplot(datahub, aes(x = factor(age)))
-age.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of Age on Incidence&quot;, x = &quot;Age&quot;, y = &quot;Frequency&quot;)</code></pre>
-<p><img src="/test_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+age.incidence + geom_bar(fill = &quot;pink&quot;, colour = &quot;black&quot;) + labs(title = &quot;Barplot of the Effect of Age on Incidence&quot;, x = &quot;Age&quot;, y = &quot;Frequency&quot;) + my_theme</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <pre class="r"><code># Two-way ANOVA with interaction effect
 # These two calls are equivalent
 res.aov3 &lt;- aov(agegrp ~ cancer, data = bcsc2)
@@ -41,8 +43,8 @@ summary(res.aov3)</code></pre>
 <div id="datahub-dataset-1" class="section level2">
 <h2>Datahub Dataset</h2>
 <pre class="r"><code>age.recurrence &lt;- ggplot(datahub, aes(x = factor(age)))
-age.recurrence + geom_bar(aes(fill = Class)) + labs(title = &quot;Double Barplot of the Effect of Age on Recurrence&quot;, x = &quot;Age&quot;, y = &quot;Frequency&quot;)</code></pre>
-<p><img src="/test_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+age.recurrence + geom_bar(aes(fill = Class)) + labs(title = &quot;Double Barplot of the Effect of Age on Recurrence&quot;, x = &quot;Age&quot;, y = &quot;Frequency&quot;) + my_theme</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>I assume the recurrence-events variable means that these women have had a prior diagnosis of breast cancer and after a period of remission, the cancer has returned. Similarly, I assume the no-recurrence-events variable means that these women have been diagnosed with breast cancer for the first time. I’m guessing a bit here due to the lack of documentation.</p>
 </div>
 </div>
@@ -51,8 +53,8 @@ age.recurrence + geom_bar(aes(fill = Class)) + labs(title = &quot;Double Barplot
 <div id="bcsc-risk-estimation-dataset-1" class="section level2">
 <h2>BCSC Risk Estimation Dataset</h2>
 <pre class="r"><code>race.incidence &lt;- ggplot(subset(bcsc2, cancer == &quot;1&quot; &amp; race &lt;= 5), aes(x = factor(race, labels = c(&quot;White&quot;, &quot;Asian/Pacific Islander&quot;, &quot;Black&quot;, &quot;Native American&quot;, &quot;Other/Mixed&quot;))))
-race.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of Race on Incidence&quot;, x = &quot;Race / Ethnicity&quot;, y = &quot;Frequency&quot;)</code></pre>
-<p><img src="/test_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+race.incidence + geom_bar(fill = &quot;pink&quot;, colour = &quot;black&quot;) + labs(title = &quot;Effect of Race on the Incidence of Breast Cancer&quot;, x = &quot;Race / Ethnicity&quot;, y = &quot;Frequency&quot;) + my_theme</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>This shows the number of people in each ethnicity who were diagnosed with breast cancer within 1 year. Not sure how to get the relative proportions. TBD. For comparison, this is the total number of people in the study:</p>
 <pre class="r"><code>x = factor(bcsc2$race, labels = c(&quot;White&quot;, &quot;Asian/Pacific Islander&quot;, &quot;Black&quot;, &quot;Native American&quot;, &quot;Other/Mixed&quot;, &quot;Unknown&quot;))
 summary(x)</code></pre>
@@ -75,15 +77,26 @@ summary(x)</code></pre>
 <div id="bcsc-risk-estimation-dataset-2" class="section level2">
 <h2>BCSC Risk Estimation Dataset</h2>
 <pre class="r"><code>menopause.incidence &lt;- ggplot(subset(bcsc2, cancer == &quot;1&quot; &amp; menopaus &lt;= 2), aes(x = factor(menopaus, labels = c(&quot;Premenopausal&quot;, &quot;Postmenopausual or Age &gt;= 55&quot;))))
-menopause.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of Menopause on Incidence&quot;, y = &quot;Frequency&quot;) + theme(axis.title.x = element_blank())</code></pre>
-<p><img src="/test_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+menopause.incidence + geom_bar(fill = &quot;pink&quot;, colour = &quot;black&quot;) + labs(title = &quot;Effect of Menopause on the Incidence of Breast Cancer&quot;, y = &quot;Frequency of Breast Cancer&quot;) + theme(axis.title.x = element_blank()) + my_theme</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>The above barplot shows the number of women who were diagnosed with breast cancer within 1 year and whether they were premenopausal or postmenopausal (or older than 55).</p>
+</div>
+<div id="menopause-mosaic-plot" class="section level2">
+<h2>Menopause mosaic plot</h2>
+<pre class="r"><code>bcsc2 &lt;- subset(bcsc2, menopaus &lt;=2)
+cancer &lt;- factor(bcsc2$cancer, labels = c(&quot;No&quot;, &quot;Yes&quot;))
+menopause &lt;- factor(bcsc2$menopaus, labels = c(&quot;Premenopausal&quot;, &quot;Postmenopausual or Age &gt;= 55&quot;))
+cancer.menopause &lt;- table(cancer, menopause, dnn = list(&quot;Diagnosis of breast cancer&quot;, &quot;Menopause&quot;))
+mosaic(cancer.menopause, shade = TRUE, legend = FALSE)</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>assoc(cancer.menopause, shade = TRUE, legend = FALSE)</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
 </div>
 <div id="datahub-dataset-2" class="section level2">
 <h2>Datahub Dataset</h2>
 <pre class="r"><code>menopause.incidence &lt;- ggplot(datahub, aes(x = factor(menopause)))
-menopause.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of Menopause on Incidence&quot;, x = &quot;Menopause&quot;, y = &quot;Frequency&quot;)</code></pre>
-<p><img src="/test_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+menopause.incidence + geom_bar(fill = &quot;pink&quot;, colour = &quot;black&quot;) + labs(title = &quot;Barplot of the Effect of Menopause on Incidence&quot;, x = &quot;Menopause&quot;, y = &quot;Frequency&quot;) + my_theme</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>Menopause status of those with breast cancer. Assuming ge40 is greater than 40 years old, lt40 is less than 40 years old (no documentation on these variables). Don’t understand why premenopausal is an entirely separate category. You can be premenopausal and &lt; 40 or &gt; 40. Right?</p>
 </div>
 </div>
@@ -92,8 +105,8 @@ menopause.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of M
 <div id="bcsc-risk-estimation-dataset-3" class="section level2">
 <h2>BCSC Risk Estimation Dataset</h2>
 <pre class="r"><code>hrt.incidence &lt;- ggplot(subset(bcsc2, cancer == &quot;1&quot; &amp; hrt &lt;= 1), aes(x = factor(hrt, labels = c(&quot;No Hormone Therapy&quot;, &quot;Hormone Therapy&quot;))))
-hrt.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of Hormone Therapy on Incidence&quot;, y = &quot;Frequency&quot;) + theme(axis.title.x = element_blank())</code></pre>
-<p><img src="/test_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+hrt.incidence + geom_bar(fill = &quot;pink&quot;, colour = &quot;black&quot;) + labs(title = &quot;Barplot of the Effect of Hormone Therapy on Incidence&quot;, y = &quot;Frequency&quot;) + theme(axis.title.x = element_blank()) + my_theme</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>The above plot shows the number of women with breast cancer who are receiving (or not receiving) hormone therapy for their menopausal symptoms. Unknown represents women who are either not menopausal or whose status we do not have.</p>
 </div>
 </div>
@@ -102,11 +115,11 @@ hrt.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of Hormone
 <div id="bcsc-risk-estimation-dataset-4" class="section level2">
 <h2>BCSC Risk Estimation Dataset</h2>
 <pre class="r"><code>bmi.incidence &lt;- ggplot(subset(bcsc2, cancer == &quot;1&quot; &amp; bmi &lt;= 4), aes(x = factor(bmi, labels = c(&quot;10-24.99&quot;, &quot;25-29.99&quot;, &quot;30-34.99&quot;, &quot;35 or more&quot;))))
-bmi.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of BMI on Incidence&quot;, x = &quot;BMI&quot;, y = &quot;Frequency&quot;)</code></pre>
-<p><img src="/test_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+bmi.incidence + geom_bar(fill = &quot;pink&quot;, colour = &quot;black&quot;) + labs(title = &quot;Barplot of the Effect of BMI on Incidence&quot;, x = &quot;BMI&quot;, y = &quot;Frequency&quot;) + my_theme</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <pre class="r"><code>bmi.incidence &lt;- ggplot(subset(bcsc2, cancer == &quot;1&quot; &amp; bmi &lt;= 4), aes(x = factor(bmi, labels = c(&quot;10-24.99&quot;, &quot;25-29.99&quot;, &quot;30-34.99&quot;, &quot;35 or more&quot;))))
-bmi.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of BMI on Incidence (Unknowns Removed)&quot;, x = &quot;BMI&quot;, y = &quot;Frequency&quot;)</code></pre>
-<p><img src="/test_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+bmi.incidence + geom_bar(fill = &quot;pink&quot;, colour = &quot;black&quot;) + labs(title = &quot;Effect of BMI on Incidence of Breast Cancer&quot;, x = &quot;BMI&quot;, y = &quot;Frequency of Breast Cancer&quot;) + my_theme</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <pre class="r"><code>bcsc2 &lt;- subset(bcsc2, bmi &lt;=4)
 cancer &lt;- factor(bcsc2$cancer, labels = c(&quot;No&quot;, &quot;Yes&quot;))
 bmi &lt;- factor(bcsc2$bmi, labels = c(&quot;10-24.99&quot;, &quot;25-29.99&quot;, &quot;30-34.99&quot;, &quot;35+&quot;))
@@ -120,8 +133,8 @@ mosaic(cancer.bmi, shade = TRUE, legend = TRUE)</code></pre>
 <div id="bcsc-risk-estimation-dataset-5" class="section level2">
 <h2>BCSC Risk Estimation Dataset</h2>
 <pre class="r"><code>nrelbc.incidence &lt;- ggplot(subset(bcsc2, cancer == &quot;1&quot; &amp; nrelbc &lt;= 2), aes(x = factor(bmi, labels = c(&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;2 or more&quot;))))
-nrelbc.incidence + geom_bar() + labs(title = &quot;Barplot of the Effect of Number of First Degree Relatives on Incidence (Unknowns Removed)&quot;, x = &quot;Number of first degree relatives&quot;, y = &quot;Frequency of Positive Diagnoses&quot;)</code></pre>
-<p><img src="/test_files/figure-html/unnamed-chunk-12-1.png" width="672" /> <!-- 
+nrelbc.incidence + geom_bar(fill = &quot;pink&quot;, colour = &quot;black&quot;) + labs(title = &quot;Effect of Number of First Degree Relatives on Incidence of Breast Cancer&quot;, x = &quot;Number of first degree relatives&quot;, y = &quot;Frequency of Positive Diagnoses&quot;) + my_theme</code></pre>
+<p><img src="/test_files/figure-html/unnamed-chunk-14-1.png" width="672" /> <!-- 
 
 Matjaz Zwitter & Milan Soklic (physicians) Institute of Oncology University Medical Center Ljubljana, Yugoslavia -- Donors: Ming Tan and Jeff Schlimmer -- Date: 11 July 1988. 
 

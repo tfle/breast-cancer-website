@@ -3,7 +3,7 @@ title: "Age Analysis"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r}
 # include=FALSE Code not shown and output not shown
 # echo=FALSE Code not shown but output shown
 
@@ -13,7 +13,7 @@ bcsc <- read.delim("Data/bcsc/risk.txt", header = FALSE, sep = "")
 names(bcsc) <- c("menopaus", "agegrp", "density", "race", "hispanic", "bmi", "agefirst", "nrelbc", "brstproc", "lastmamm", "surgmeno", "hrt", "invasive", "cancer", "training", "count")
 ```
 
-```{r setup, echo=FALSE}
+```{r}
 age.incidence <- ggplot(subset(bcsc, cancer == "1"), aes(x = factor(agegrp, labels = c("35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84"))))
 age.incidence + geom_bar() + labs(title = "Barplot of the Effect of Age on Incidence", x = "Age", y = "Frequency")
 ```
