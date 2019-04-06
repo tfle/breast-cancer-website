@@ -14,23 +14,17 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     url = "/age/"
     weight = 1
 [[menu.main]]
+    name = "Menopause"
+    url = "/menopause/" 
+    weight = 2
+[[menu.main]]
     name = "Ethnicity"
     url = "/ethnicity/" 
     weight = 3
 [[menu.main]]
-    name = "Menopause"
-    url = "/menopause/" 
-    weight = 2
-  [[menu.main]]
     name = "Recommendations"
     url = "/recommendations/" 
     weight = 4
-[[menu.main]]
-    name = "Test"
-    url = "/test/"
-    weight = 99
-
-
 
 [params]
     description = "Multimedia research project for AMED3002: Interrogating Biomedical and Health Data"
