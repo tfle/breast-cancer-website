@@ -27,19 +27,19 @@ names(bcsc) <- c("menopaus", "agegrp", "density", "race", "hispanic", "bmi", "ag
 ```
 
 ```{r plot}
-# Create subset of BCSC data with only positive diagnoses
-cancer.bcsc <- subset(bcsc, cancer == "1")
+# Create subset of BCSC data with only positive diagnoses and wihtout unknown menopause data ("9" in the dataset)
+cancer.bcsc <- subset(bcsc, cancer == "1" & menopaus <= 2)
 
-# Give labels to the agegrp factor (categorical variable)
-agegrp.factor <- factor(cancer.bcsc$agegrp, labels = c("35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84"))
+# Give labels to the menopaus factor (categorical variable)
+menopaus.factor <- factor(cancer.bcsc$menopaus, labels = c("Premenopausal", "Postmenopausual"))
 
 # Plot
-plot <- ggplot(cancer.bcsc, aes(x = agegrp.factor)) + 
+plot <- ggplot(cancer.bcsc, aes(x = menopaus.factor)) + 
   geom_bar(fill = "pink", colour = "black") + 
   my_theme +
-  labs(title = "Effect of Age on the Incidence of Breast Cancer", x = "Age (Years)", y = "Frequency of Breast Cancer") +
+  labs(title = "Effect of Menopause on the Incidence of Breast Cancer", x = "", y = "Frequency of Breast Cancer") +
   ## gganimate specific code
-  transition_states(agegrp.factor, transition_length = 1, state_length = 1, wrap = FALSE) + 
+  transition_states(menopaus.factor, transition_length = 1, state_length = 1, wrap = FALSE) + 
   enter_fade() + enter_grow() +
   shadow_mark() +
   ease_aes('quadratic-in-out')
@@ -50,8 +50,8 @@ animate(plot, nframes = 60, fps=30, renderer = gifski_renderer(loop = FALSE))
 # To see output, set include = TRUE
 
 # One-way ANOVA
-anova <- aov(agegrp ~ cancer, data = bcsc)
+anova <- aov(agegrp ~ menopaus, data = bcsc)
 summary(anova)
 ```
 
-The barplot represents the frequency of this cancer among the different age groups. The histogram is a normal distribution with the greatest incidence of breast cancer occurring from 50-60 years old. This increase in morbidity corresponds to the increase in women entering menopause.
+The bar plot shows the number of women who were diagnosed with breast cancer within 1 year and whether they were premenopausal or postmenopausal. 70% of all breast cancer types are oestrogen receptor positive cancers (ER- positive). Therefore starting menopause further increases a woman’s risk of developing breast cancer as the more menstrual periods a woman has, the longer their body is exposed to high levels of oestrogen.
