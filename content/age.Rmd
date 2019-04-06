@@ -12,9 +12,10 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Load required packages
 library(ggplot2)
+library(gganimate)
 
 # Theme setup
-my.theme <- theme_classic() + theme(plot.background = element_rect(NULL), panel.grid = element_line(NULL))
+my_theme <- theme_classic() + theme(plot.background = element_rect(NULL), panel.grid = element_line(NULL))
 ```
 
 ```{r read.data}
@@ -32,11 +33,17 @@ cancer.bcsc <- subset(bcsc, cancer == "1")
 # Give labels to the agegrp factor (categorical variable)
 agegrp.factor <- factor(cancer.bcsc$agegrp, labels = c("35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84"))
 
-# Axes labels
-age.plot <- ggplot(cancer.bcsc, aes(x = agegrp.factor)) + labs(title = "Effect of Age on the Incidence of Breast Cancer", x = "Age (Years)", y = "Frequency of Breast Cancer")
-
-# Plot type and theming
-age.plot + geom_bar(fill = "pink", colour = "black") + my.theme
+# Plot
+plot <- ggplot(cancer.bcsc, aes(x = agegrp.factor)) + 
+  geom_bar(fill = "pink", colour = "black") + 
+  my_theme +
+  labs(title = "Effect of Age on the Incidence of Breast Cancer", x = "Age (Years)", y = "Frequency of Breast Cancer") +
+  ## gganimate specific code
+  transition_states(agegrp.factor, transition_length = 1, state_length = 1, wrap = FALSE) + 
+  enter_fade() + enter_grow() +
+  shadow_mark() +
+  ease_aes('quadratic-in-out')
+animate(plot, nframes = 60, fps=30, renderer = gifski_renderer(loop = FALSE))
 ```
 
 ```{r testing, include = FALSE}
