@@ -1,0 +1,57 @@
+---
+title: "Ethnicity"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+# include = FALSE: Neither code nor output shown
+# echo = FALSE: Only output shown
+
+# Suppress all output by default
+knitr::opts_chunk$set(echo = FALSE)
+
+# Load required packages
+library(ggplot2)
+library(gganimate)
+
+# Theme setup
+my_theme <- theme_classic() + theme(plot.background = element_rect(NULL), panel.grid = element_line(NULL))
+```
+
+```{r read.data}
+# Read in txt file
+bcsc <- read.delim("Data/bcsc/risk.txt", header = FALSE, sep = "")
+
+# Assign names to variables in the BCSC header
+names(bcsc) <- c("menopaus", "agegrp", "density", "race", "hispanic", "bmi", "agefirst", "nrelbc", "brstproc", "lastmamm", "surgmeno", "hrt", "invasive", "cancer", "training", "count")
+```
+
+```{r plot}
+# Create subset of BCSC data with only positive diagnoses and without unknown race data ("9" in the dataset)
+cancer.bcsc <- subset(bcsc, cancer == "1" & race <= 5)
+
+# Give labels to the menopaus factor (categorical variable)
+race.factor <- factor(cancer.bcsc$race, labels = c("White", "Asian/Pacific Islander", "Black", "Native American", "Other/Mixed"))
+
+# Plot
+plot <- ggplot(cancer.bcsc, aes(x = race.factor)) + 
+  geom_bar(fill = "pink", colour = "black") + 
+  my_theme +
+  labs(title = "Effect of Ethnicity on the Incidence of Breast Cancer", x = "Ethnicity", y = "Frequency of Breast Cancer") +
+  ## gganimate specific code
+  transition_states(race.factor, transition_length = 1, state_length = 1, wrap = FALSE) + 
+  enter_fade() + enter_grow() +
+  shadow_mark() +
+  ease_aes('quadratic-in-out')
+animate(plot, nframes = 60, fps=30, renderer = gifski_renderer(loop = FALSE))
+```
+
+```{r testing, include = FALSE}
+# To see output, set include = TRUE
+
+# One-way ANOVA
+anova <- aov(agegrp ~ race, data = bcsc)
+summary(anova)
+```
+
+The incidence of breast cancer is notably larger in white women. The next highest incidence belongs to black people, Asians and then Native Americans. The highest incidence in white individuals can be attributed to the diet and lifestyle which can also lead to a high BMI in the population.
