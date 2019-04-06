@@ -37,7 +37,7 @@ race.factor <- factor(cancer.bcsc$race, labels = c("White", "Asian/Pacific Islan
 plot <- ggplot(cancer.bcsc, aes(x = race.factor)) + 
   geom_bar(fill = "pink", colour = "black") + 
   my_theme +
-  labs(title = "Effect of Ethnicity on the Incidence of Breast Cancer", x = "Ethnicity", y = "Frequency of Breast Cancer") +
+  labs(title = "Effect of Ethnicity on the Incidence of Breast Cancer", x = "", y = "Frequency of Breast Cancer") +
   ## gganimate specific code
   transition_states(race.factor, transition_length = 1, state_length = 1, wrap = FALSE) + 
   enter_fade() + enter_grow() +
