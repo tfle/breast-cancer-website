@@ -54,4 +54,6 @@ anova <- aov(agegrp ~ race, data = bcsc)
 summary(anova)
 ```
 
-The incidence of breast cancer is notably larger in white women. The next highest incidence belongs to black people, Asians and then Native Americans. The highest incidence in white individuals can be attributed to the diet and lifestyle which can also lead to a high BMI in the population.
+The incidence of breast cancer is notably larger in white women. The next highest incidence belongs to black people, Asians and then Native Americans. The highest incidence in white individuals can be attributed to the diet and lifestyle which can also lead to a high BMI in the population.[^4]
+
+[^4]: Liu et al. 2012, ‘Invasive breast cancer incidence trends by detailed race/ethnicity and age’, International Journal of Cancer, vol. 130, no. 2, pp. 395–404.
