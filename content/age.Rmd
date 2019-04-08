@@ -54,6 +54,6 @@ anova <- aov(agegrp ~ cancer, data = bcsc)
 summary(anova)
 ```
 
-The barplot represents the frequency of this cancer among the different age groups. The histogram is a normal distribution with the greatest incidence of breast cancer occurring from 50-60 years old. This increase in morbidity corresponds to the increase in women entering menopause.[^2]
+The barplot represents the frequency of this cancer among the different age groups. The histogram is a normal distribution with the greatest incidence of breast cancer occurring from 50-69 years old. This increase in morbidity corresponds to the increase in women entering menopause.[^2]
 
 [^2]: Kaminska et al. 2015, ‘Breast cancer risk factors’, Przeglad menopauzalny = Menopause review, vol. 14, no. 3, pp. 196–202.
