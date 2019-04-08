@@ -56,4 +56,4 @@ summary(anova)
 
 The bar plot shows the number of women who were diagnosed with breast cancer within 1 year and whether they were premenopausal or postmenopausal. As 70% of all breast cancer types are oestrogen receptor positive cancers, starting menopause further increases a woman’s risk of developing breast cancer as the more menstrual periods a woman has, the longer their body is exposed to high levels of oestrogen.[^6]
 
-[^6]: Sweeney, C. 2004, ‘Risk Factors for Breast Cancer in Elderly Women’, American Journal of Epidemiology, vol. 160, no. 9, pp. 868-75.
+[^6]: Sweeney, C. 2004, ‘Risk Factors for Breast Cancer in Elderly Women’, *American Journal of Epidemiology*, vol. 160, no. 9, pp.
